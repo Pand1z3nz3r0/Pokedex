@@ -16,8 +16,17 @@ public class App {
 
         while (running) {
             output.println("\n=== POKEDEX PRINCIPALE ===");
-            // da sistemare
-            pokedex.getPokedex().forEach(p -> output.println(p.toString()));
+            // Filtriamo la lista per mostrare solo i pokemon già scoperti
+            // Se la lista è vuota (all'inizio), non stamperà nulla
+            pokedex.getPokedex().stream()
+                    .filter(Pokemon::isFound)
+                    .forEach(p -> output.println(p.toString()));
+
+            // Opzionale: un messaggio se non hai ancora scoperto nulla
+            long scopertiCount = pokedex.getPokedex().stream().filter(Pokemon::isFound).count();
+            if (scopertiCount == 0) {
+                output.println("[ Nessun Pokémon ancora scoperto ]");
+            }
 
             output.println("\nScegli un'opzione:");
             output.println("0. Esci");
